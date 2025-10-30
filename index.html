@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>System Warning</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --bg:#000000;
+      --text:#ffffff;
+      --muted:#ccc;
+      --box-bg:#111111;
+      --accent:#ff4444;
+    }
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:Consolas,Menlo,monospace}
+    .wrap{height:100%;display:flex;align-items:center;justify-content:center;padding:20px}
+    .box{
+      width:100%;
+      max-width:520px;
+      background:var(--box-bg);
+      border:1px solid #222;
+      box-shadow:0 8px 24px rgba(255,255,255,0.03);
+      padding:28px;
+      text-align:center;
+      border-radius:6px;
+    }
+    .title{font-weight:700;color:var(--accent);font-size:20px;margin:0 0 14px}
+    .headline{font-size:22px;margin:6px 0}
+    .quote{font-size:20px;margin:6px 0;font-style:italic;color:#fff}
+    .small{color:var(--muted);font-size:13px;margin-top:12px}
+    .footer{margin-top:8px;font-size:13px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="box" role="dialog" aria-labelledby="warn">
+      <div class="title" id="warn">⚠️ Warning: System Error</div>
+      <div class="headline">Warning system error!</div>
+      <div class="quote">"You've been hacked"</div>
+      <div class="small">It's a Prank</div>
+      <div class="footer" id="visitor-name">(Your Name)</div>
+    </div>
+  </div>
+
+  <script>
+    function getQueryParam(name){
+      const params = new URLSearchParams(window.location.search);
+      return params.has(name) ? params.get(name) : null;
+    }
+    const raw = getQueryParam('name');
+    const container = document.getElementById('visitor-name');
+    if (raw) {
+      try {
+        const decoded = decodeURIComponent(raw);
+        const safe = decoded.length > 40 ? decoded.slice(0,40) + '…' : decoded;
+        container.textContent = '(' + safe + ')';
+      } catch(e) {
+        container.textContent = '(Visitor)';
+      }
+    } else {
+      container.textContent = '(Your Name)';
+    }
+  </script>
+</body>
+</html>
